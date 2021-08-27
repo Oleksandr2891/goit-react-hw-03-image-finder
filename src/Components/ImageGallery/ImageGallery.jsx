@@ -21,20 +21,6 @@ class ImageGallery extends Component {
         setImagePath: '',
     };
 
-    componentDidMount() {
-        // if (this.state.isModalOpen) {
-        // const imageIsLoad = document.querySelector(".imageInModal");
-        console.dir('ok');
-        // }
-    }
-
-    componentWillUnmount() {
-        // window.removeEventListener("keydown", this.handleEscape);
-        // const body = document.querySelector("body");
-        // body.style.overflow = "auto";
-    }
-
-
 
     async componentDidUpdate(prevProps, prevState) {
         const prevName = prevProps.imageNameSearch;
@@ -109,7 +95,7 @@ class ImageGallery extends Component {
                     })}
                 </ImageGalleryList>
                 {imageData?.length && <Button onHandleLoadMore={this.onHandleLoadMore} />}
-                {setImagePath && (
+                {isModalOpen && (
                     <Modal closeModal={this.closeModal}>
                         <img src={setImagePath} width="1000" height="800" alt="ItisPhoto" className="imageInModal" />
                     </Modal>

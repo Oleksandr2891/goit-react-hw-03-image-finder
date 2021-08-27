@@ -14,13 +14,10 @@ class Modal extends Component {
         const body = document.querySelector("body");
         body.style.overflow = "hidden";
         const imageIsLoad = document.querySelector(".modal");
-        this.setState({ onLoadImage: true })
+        // imageIsLoad.onload = function () {
+        //     console.log("Выключись")
+        // };
         // this.loaderOff(imageIsLoad);
-        imageIsLoad.onload = function () {
-            console.log("Выключись")
-            this.setState({ onLoadImage: false })
-        }
-
     }
 
     // loaderOff = (imageIsLoad) => {
