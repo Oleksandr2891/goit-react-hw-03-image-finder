@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import Api from '../../utils/Api'
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
+import LoaderSpiner from "../Loader/Loader";
 
 import { ImageGalleryList } from './ImageGalleryStyled';
 
@@ -19,6 +20,7 @@ class ImageGallery extends Component {
         imageData: null,
         isModalOpen: false,
         setImagePath: '',
+        onLoadImage: false,
     };
 
 
@@ -30,7 +32,7 @@ class ImageGallery extends Component {
         const notifySuccess = () => toast.success('Поиск успешно выполнен!!!');
         const notifyError = () => toast.error('По вашему запросу ничего не найдено');
         if (prevName !== nextName) {
-            this.setState({ page: 1 });
+            this.setState({ page: 1, isModalOpen: true, onLoadImage: true });
             try {
                 const response = await Api(nextName, page);
 
@@ -42,9 +44,12 @@ class ImageGallery extends Component {
                 }
             } catch (error) {
                 alert(error);
+            } finally {
+                this.setState({ isModalOpen: false, onLoadImage: false })
             }
         }
         if (prevPage !== page) {
+            this.setState({ isModalOpen: true, onLoadImage: true })
             try {
                 const response = await Api(nextName, page);
 
@@ -60,7 +65,8 @@ class ImageGallery extends Component {
                 window.scrollTo({
                     top: document.documentElement.scrollHeight,
                     behavior: 'smooth',
-                })
+                });
+                this.setState({ isModalOpen: false, onLoadImage: false });
             }
         }
     }
@@ -80,7 +86,7 @@ class ImageGallery extends Component {
 
 
     render() {
-        const { imageData, isModalOpen, setImagePath } = this.state;
+        const { imageData, isModalOpen, setImagePath, onLoadImage } = this.state;
         return (
             <>
                 <ImageGalleryList>
@@ -97,7 +103,7 @@ class ImageGallery extends Component {
                 {imageData?.length && <Button onHandleLoadMore={this.onHandleLoadMore} />}
                 {isModalOpen && (
                     <Modal closeModal={this.closeModal}>
-                        <img src={setImagePath} width="1000" height="800" alt="ItisPhoto" className="imageInModal" />
+                        {onLoadImage ? <LoaderSpiner /> : <img src={setImagePath} width="1000" height="800" alt="ItisPhoto" className="imageInModal" />}
                     </Modal>
                 )}
             </>

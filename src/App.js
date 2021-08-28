@@ -11,17 +11,6 @@ class App extends Component {
     imageNameSearch: '',
   };
 
-  componentDidMount() {
-    // const parsedContacts = JSON.parse(localStorage.getItem('contacts'))
-    // this.setState({ contacts: parsedContacts })
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // if (this.state.contacts !== prevState.contacts) {
-    //   localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-    // }
-  }
-
   handleFormSubmit = imageNameSearch => {
     this.setState({ imageNameSearch })
   }

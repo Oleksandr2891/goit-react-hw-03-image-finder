@@ -1,32 +1,29 @@
 import React, { Component } from "react";
 import { Overlay } from "./ModalStyled";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import PropTypes from 'prop-types';
+import LoaderSpiner from "../Loader/Loader";
+
 
 class Modal extends Component {
     state = {
         onLoadImage: false,
-    }
-
+    };
 
     componentDidMount() {
         window.addEventListener("keydown", this.handleEscape);
         const body = document.querySelector("body");
         body.style.overflow = "hidden";
-        const imageIsLoad = document.querySelector(".modal");
-        // imageIsLoad.onload = function () {
-        //     console.log("Выключись")
-        // };
-        // this.loaderOff(imageIsLoad);
+        this.showLoaderForSrc();
     }
 
-    // loaderOff = (imageIsLoad) => {
-
-    //     imageIsLoad.onload = function () {
-    //         console.log("Выключись")
-    //         this.setState({ onLoadImage: false })
-    //     };
-    // }
+    showLoaderForSrc = () => {
+        const imageIsLoad = document.querySelector(".imageInModal");
+        this.setState({ onLoadImage: true });
+        const context = this;
+        imageIsLoad.onload = function () {
+            context.setState({ onLoadImage: false });
+        };
+    };
 
     componentWillUnmount() {
         window.removeEventListener("keydown", this.handleEscape);
@@ -46,14 +43,7 @@ class Modal extends Component {
         return (
             <Overlay onClick={this.onOverlayClick}>
                 <div className='modal'>
-                    {onLoadImage ? <Loader
-                        type="Puff"
-                        color="#00BFFF"
-                        height={300}
-                        width={300}
-                        timeout={3000}
-                    /> : children}
-
+                    {onLoadImage ? <LoaderSpiner /> : children}
                 </div>
             </Overlay>
         );
@@ -61,3 +51,7 @@ class Modal extends Component {
 }
 
 export default Modal;
+
+Modal.propTypes = {
+    children: PropTypes.object,
+}

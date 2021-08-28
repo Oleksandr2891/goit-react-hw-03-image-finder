@@ -1,4 +1,5 @@
 import { ButtonLoader } from "./ButtonStyled";
+import PropTypes from 'prop-types';
 
 
 const Button = ({ onHandleLoadMore }) => {
@@ -11,3 +12,7 @@ const Button = ({ onHandleLoadMore }) => {
 }
 
 export default Button;
+
+Button.propTypes = {
+    onHandleLoadMore: PropTypes.func,
+}
